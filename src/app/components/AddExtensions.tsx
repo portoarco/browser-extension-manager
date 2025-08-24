@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { apiCall } from "@/helper/apiCall";
 import { getData } from "@/lib/utils";
-import { ok } from "assert";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -127,9 +126,13 @@ export default function AddExtensionsDialog({
         </form>
         <DialogFooter className="flex  gap-x-2 ">
           <DialogClose asChild onClick={() => setOpenDialog(false)}>
-            <Button variant={"destructive"}>Cancel</Button>
+            <Button variant={"destructive"} className="cursor-pointer">
+              Cancel
+            </Button>
           </DialogClose>
-          <Button onClick={AddExtension}>Add Data</Button>
+          <Button onClick={AddExtension} className="cursor-pointer">
+            Add Data
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

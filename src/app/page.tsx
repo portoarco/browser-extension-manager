@@ -213,89 +213,103 @@ export default function Home() {
         </div>
         {/* Add Extension & Dev Mode */}
         <div className="p-3 mt-5 flex justify-between gap-x-5 items-center">
-          <Button
-            className="bg-blue-600 hover:bg-blue-500 cursor-pointer dark:text-white"
-            onClick={btnAddExtension}
-          >
-            <p className="max-md:hidden flex items-center gap-x-2">
-              <span className="text-xl">+</span> Add Extension
-            </p>
-            <p className="md:hidden">+ Extension</p>
-          </Button>
+          <motion.div whileTap={{ scale: 0.9 }}>
+            <Button
+              className="bg-blue-600 hover:bg-blue-500 cursor-pointer dark:text-white h-10"
+              onClick={btnAddExtension}
+            >
+              <p className="max-md:hidden flex items-center gap-x-2 text-lg">
+                <span className="text-xl">+</span> Add Extension
+              </p>
+              <p className="md:hidden">+ Extension</p>
+            </Button>
+          </motion.div>
           <div className="flex gap-x-2 items-center">
             <label>Dev Mode</label>
             <Switch onClick={devModeToggle}></Switch>
           </div>
         </div>
       </header>
-      <main className="md:p-3 mt-5 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {filteredData.map((e) => (
-          <AnimatePresence mode="wait" key={e.objectId}>
-            <motion.div
-              layout
-              initial={{ y: -10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -10, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <Card key={e.objectId} className="">
-                <CardContent className="flex items-start gap-x-5">
-                  {/* Content */}
-                  <Image
-                    src={e.logo}
-                    alt="serviceicon"
-                    width={120}
-                    height={120}
-                    className="w-20 h-20"
-                  ></Image>
-                  <div className="flex flex-col">
-                    <p className="text-xl font-bold">{e.name}</p>
-                    <p className="mt-1 text-sm md:text-lg xl:text-sm text-gray-500">
-                      {e.description}
-                    </p>
-                    <AnimatePresence mode="wait">
-                      {devMode && (
-                        <motion.p
-                          key={e.objectId}
-                          className="break-all text-justify mt-1 text-xs md:text-lg xl:text-sm text-gray-500"
-                          initial={{ height: 0, y: -10, opacity: 0 }}
-                          animate={{ height: "auto", y: 0, opacity: 1 }}
-                          exit={{ height: 0, y: -10, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {" "}
-                          ID:{" "}
-                          {e.objectId
-                            .toLowerCase()
-                            .slice(0, 20)
-                            .trim()
-                            .replaceAll("-", "")}
-                        </motion.p>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button
-                    className="rounded-full cursor-pointer"
-                    variant={"secondary"}
-                    onClick={() => {
-                      setSelectedId(e.objectId);
-                      setOpen(true);
-                    }}
-                  >
-                    Remove
-                  </Button>
-                  <Switch
-                    className="data-[state=checked]:bg-red-600 cursor-pointer"
-                    checked={e.isActive}
-                    onCheckedChange={() => btnActive(e.objectId, e.isActive)}
-                  ></Switch>
-                </CardFooter>
-              </Card>
-            </motion.div>
-          </AnimatePresence>
-        ))}
+      <main
+        className={`md:p-3 mt-5 grid gap-5  ${
+          filteredData.length > 0
+            ? "md:grid-cols-2 xl:grid-cols-4"
+            : "grid-cols-1"
+        }`}
+      >
+        {filteredData.length > 0 ? (
+          filteredData.map((e) => (
+            <AnimatePresence mode="wait" key={e.objectId}>
+              <motion.div
+                layout
+                initial={{ y: -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -10, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                <Card key={e.objectId} className="">
+                  <CardContent className="flex items-start gap-x-5">
+                    {/* Content */}
+                    <Image
+                      src={e.logo}
+                      alt="serviceicon"
+                      width={120}
+                      height={120}
+                      className="w-20 h-20"
+                    ></Image>
+                    <div className="flex flex-col">
+                      <p className="text-xl font-bold">{e.name}</p>
+                      <p className="mt-1 text-sm md:text-lg xl:text-sm text-gray-500">
+                        {e.description}
+                      </p>
+                      <AnimatePresence mode="wait">
+                        {devMode && (
+                          <motion.p
+                            key={e.objectId}
+                            className="break-all text-justify mt-1 text-xs md:text-lg xl:text-sm text-gray-500"
+                            initial={{ height: 0, y: -10, opacity: 0 }}
+                            animate={{ height: "auto", y: 0, opacity: 1 }}
+                            exit={{ height: 0, y: -10, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            {" "}
+                            ID:{" "}
+                            {e.objectId
+                              .toLowerCase()
+                              .slice(0, 20)
+                              .trim()
+                              .replaceAll("-", "")}
+                          </motion.p>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <Button
+                      className="rounded-full cursor-pointer"
+                      variant={"secondary"}
+                      onClick={() => {
+                        setSelectedId(e.objectId);
+                        setOpen(true);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                    <Switch
+                      className="data-[state=checked]:bg-red-600 cursor-pointer"
+                      checked={e.isActive}
+                      onCheckedChange={() => btnActive(e.objectId, e.isActive)}
+                    ></Switch>
+                  </CardFooter>
+                </Card>
+              </motion.div>
+            </AnimatePresence>
+          ))
+        ) : (
+          <p className=" animate-bounce text-xl text-center ">
+            Sorry, data not found ❌
+          </p>
+        )}
       </main>
 
       {/* Confirm dialog */}
